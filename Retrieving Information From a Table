@@ -210,3 +210,246 @@ mysql> SELECT name, species, birth FROM pet
 
 
 
+
+3.3.4.5 Date Calculations
+mysql> SELECT name, birth, CURDATE(),
+    -> TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age
+    -> FROM pet;
++----------+------------+------------+------+
+| name     | birth      | CURDATE()  | age  |
++----------+------------+------------+------+
+| Fluffy   | 1993-02-04 | 2022-05-09 |   29 |
+| Claws    | 1994-03-17 | 2022-05-09 |   28 |
+| Buffy    | 1989-05-13 | 2022-05-09 |   32 |
+| Fang     | 1990-08-27 | 2022-05-09 |   31 |
+| Bowser   | 1989-08-31 | 2022-05-09 |   32 |
+| Chirpy   | 1998-09-11 | 2022-05-09 |   23 |
+| Whistler | 1997-12-09 | 2022-05-09 |   24 |
+| Slim     | 1996-04-29 | 2022-05-09 |   26 |
+| Puffball | 1999-03-30 | 2022-05-09 |   23 |
++----------+------------+------------+------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT name, birth, CURDATE(),
+    -> TIMESTAMPDIFF(YEAR,birth, CURDATE()) AS age
+    -> FROM pet ORDER BY name;
++----------+------------+------------+------+
+| name     | birth      | CURDATE()  | age  |
++----------+------------+------------+------+
+| Bowser   | 1989-08-31 | 2022-05-09 |   32 |
+| Buffy    | 1989-05-13 | 2022-05-09 |   32 |
+| Chirpy   | 1998-09-11 | 2022-05-09 |   23 |
+| Claws    | 1994-03-17 | 2022-05-09 |   28 |
+| Fang     | 1990-08-27 | 2022-05-09 |   31 |
+| Fluffy   | 1993-02-04 | 2022-05-09 |   29 |
+| Puffball | 1999-03-30 | 2022-05-09 |   23 |
+| Slim     | 1996-04-29 | 2022-05-09 |   26 |
+| Whistler | 1997-12-09 | 2022-05-09 |   24 |
++----------+------------+------------+------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT name, birth, CURDATE(),
+    -> TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age
+    -> FROM pet ORDER BY age;
++----------+------------+------------+------+
+| name     | birth      | CURDATE()  | age  |
++----------+------------+------------+------+
+| Chirpy   | 1998-09-11 | 2022-05-09 |   23 |
+| Puffball | 1999-03-30 | 2022-05-09 |   23 |
+| Whistler | 1997-12-09 | 2022-05-09 |   24 |
+| Slim     | 1996-04-29 | 2022-05-09 |   26 |
+| Claws    | 1994-03-17 | 2022-05-09 |   28 |
+| Fluffy   | 1993-02-04 | 2022-05-09 |   29 |
+| Fang     | 1990-08-27 | 2022-05-09 |   31 |
+| Buffy    | 1989-05-13 | 2022-05-09 |   32 |
+| Bowser   | 1989-08-31 | 2022-05-09 |   32 |
++----------+------------+------------+------+
+9 rows in set (0.01 sec)
+
+mysql> SELECT name, birth, death,
+    -> TIMESTAMPDIFF(YEAR,birth,death) AS age
+    -> FROM pet WHERE death IS NOT NULL ORDER BY age;
++--------+------------+------------+------+
+| name   | birth      | death      | age  |
++--------+------------+------------+------+
+| Bowser | 1989-08-31 | 1995-07-29 |    5 |
++--------+------------+------------+------+
+1 row in set (0.00 sec)
+
+mysql> SELECT name, birth, MONTH(birth) FROM pet;
++----------+------------+--------------+
+| name     | birth      | MONTH(birth) |
++----------+------------+--------------+
+| Fluffy   | 1993-02-04 |            2 |
+| Claws    | 1994-03-17 |            3 |
+| Buffy    | 1989-05-13 |            5 |
+| Fang     | 1990-08-27 |            8 |
+| Bowser   | 1989-08-31 |            8 |
+| Chirpy   | 1998-09-11 |            9 |
+| Whistler | 1997-12-09 |           12 |
+| Slim     | 1996-04-29 |            4 |
+| Puffball | 1999-03-30 |            3 |
++----------+------------+--------------+
+9 rows in set (0.00 sec)
+
+mysql> SELECT name, birth FROM pet WHERE MONTH(birth) = 5;
++-------+------------+
+| name  | birth      |
++-------+------------+
+| Buffy | 1989-05-13 |
++-------+------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT name, birth FROM pet
+    -> WHERE MONTH(birth) = MOD(MONTH(CURDATE()), 12) + 1;
+Empty set (0.00 sec)
+
+mysql> SELECT '2018-10-31' + INTERVAL 1 DAY;
++-------------------------------+
+| '2018-10-31' + INTERVAL 1 DAY |
++-------------------------------+
+| 2018-11-01                    |
++-------------------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT '2018-10-32' + INTERVAL 1 DAY;
++-------------------------------+
+| '2018-10-32' + INTERVAL 1 DAY |
++-------------------------------+
+| NULL                          |
++-------------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> SHOW WARNINGS;
++---------+------+----------------------------------------+
+| Level   | Code | Message                                |
++---------+------+----------------------------------------+
+| Warning | 1292 | Incorrect datetime value: '2018-10-32' |
++---------+------+----------------------------------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+3.3.4.6 Working with NULL Values
+mysql> SELECT 1 IS NULL, 1 IS NOT NULL;
++-----------+---------------+
+| 1 IS NULL | 1 IS NOT NULL |
++-----------+---------------+
+|         0 |             1 |
++-----------+---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 1 = NULL, 1 <> NULL, 1 < NULL, 1 > NULL;
++----------+-----------+----------+----------+
+| 1 = NULL | 1 <> NULL | 1 < NULL | 1 > NULL |
++----------+-----------+----------+----------+
+|     NULL |      NULL |     NULL |     NULL |
++----------+-----------+----------+----------+
+1 row in set (0.00 sec)
+
+mysql> SELECT 0 IS NULL, 0 IS NOT NULL, ' ' IS NULL, ' ' IS NOT NULL;
++-----------+---------------+-------------+-----------------+
+| 0 IS NULL | 0 IS NOT NULL | ' ' IS NULL | ' ' IS NOT NULL |
++-----------+---------------+-------------+-----------------+
+|         0 |             1 |           0 |               1 |
++-----------+---------------+-------------+-----------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+3.3.4.7 Pattern Matching
+mysql> SELECT * FROM pet WHERE name LIKE 'b%';
++--------+--------+---------+------+------------+------------+
+| name   | owner  | species | sex  | birth      | death      |
++--------+--------+---------+------+------------+------------+
+| Buffy  | Harold | dog     | f    | 1989-05-13 | NULL       |
+| Bowser | Diane  | dog     | m    | 1989-08-31 | 1995-07-29 |
++--------+--------+---------+------+------------+------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE name LIKE '%fy';
++--------+--------+---------+------+------------+-------+
+| name   | owner  | species | sex  | birth      | death |
++--------+--------+---------+------+------------+-------+
+| Fluffy | Harold | cat     | f    | 1993-02-04 | NULL  |
+| Buffy  | Harold | dog     | f    | 1989-05-13 | NULL  |
++--------+--------+---------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE name LIKE '%W%';
++----------+-------+---------+------+------------+------------+
+| name     | owner | species | sex  | birth      | death      |
++----------+-------+---------+------+------------+------------+
+| Claws    | Gwen  | cat     | m    | 1994-03-17 | NULL       |
+| Bowser   | Diane | dog     | m    | 1989-08-31 | 1995-07-29 |
+| Whistler | Gwen  | bird    | NULL | 1997-12-09 | NULL       |
++----------+-------+---------+------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE name LIKE '_____';
++-------+--------+---------+------+------------+-------+
+| name  | owner  | species | sex  | birth      | death |
++-------+--------+---------+------+------------+-------+
+| Claws | Gwen   | cat     | m    | 1994-03-17 | NULL  |
+| Buffy | Harold | dog     | f    | 1989-05-13 | NULL  |
++-------+--------+---------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, '^b');
++--------+--------+---------+------+------------+------------+
+| name   | owner  | species | sex  | birth      | death      |
++--------+--------+---------+------+------------+------------+
+| Buffy  | Harold | dog     | f    | 1989-05-13 | NULL       |
+| Bowser | Diane  | dog     | m    | 1989-08-31 | 1995-07-29 |
++--------+--------+---------+------+------------+------------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, 'fy$');
++--------+--------+---------+------+------------+-------+
+| name   | owner  | species | sex  | birth      | death |
++--------+--------+---------+------+------------+-------+
+| Fluffy | Harold | cat     | f    | 1993-02-04 | NULL  |
+| Buffy  | Harold | dog     | f    | 1989-05-13 | NULL  |
++--------+--------+---------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, 'w');
++----------+-------+---------+------+------------+------------+
+| name     | owner | species | sex  | birth      | death      |
++----------+-------+---------+------+------------+------------+
+| Claws    | Gwen  | cat     | m    | 1994-03-17 | NULL       |
+| Bowser   | Diane | dog     | m    | 1989-08-31 | 1995-07-29 |
+| Whistler | Gwen  | bird    | NULL | 1997-12-09 | NULL       |
++----------+-------+---------+------+------------+------------+
+3 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, '^.....$');
++-------+--------+---------+------+------------+-------+
+| name  | owner  | species | sex  | birth      | death |
++-------+--------+---------+------+------------+-------+
+| Claws | Gwen   | cat     | m    | 1994-03-17 | NULL  |
+| Buffy | Harold | dog     | f    | 1989-05-13 | NULL  |
++-------+--------+---------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, '^.{5}$');
++-------+--------+---------+------+------------+-------+
+| name  | owner  | species | sex  | birth      | death |
++-------+--------+---------+------+------------+-------+
+| Claws | Gwen   | cat     | m    | 1994-03-17 | NULL  |
+| Buffy | Harold | dog     | f    | 1989-05-13 | NULL  |
++-------+--------+---------+------+------------+-------+
+2 rows in set (0.00 sec)
+
+
+
+
+
+
+3.3.4.8 Counting Rows
