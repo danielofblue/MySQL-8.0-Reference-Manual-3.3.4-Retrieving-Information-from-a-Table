@@ -20,12 +20,6 @@ Table of Contents
 -- -- 3.3.4.8 Counting Rows
 -- -- 3.3.4.9 Using More Than one Table
 3.4 Getting Information About Databases and Tables
-
-
-
-
-
-
 3.5 Using mysql in Batch Mode
 https://dev.mysql.com/doc/refman/8.0/en/batch-mode.html
 
