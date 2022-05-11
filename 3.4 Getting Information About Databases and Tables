@@ -1,11 +1,14 @@
-# MySQL-8.0-Reference-Manual-Chapter-3-Tutorial
+# MySQL 8.0 - Reference Manual Chapter 3 Tutorial
+https://dev.mysql.com/doc/refman/8.0/en/tutorial.html
+
+Table of Contents
+
 3.1 Connecting to and Disconnecting from the Server
 3.2 Entering Queries
 3.3 Creating and Using a Database
 -- 3.3.1 Creating and Selecting a Database
 -- 3.3.2 Creating a Table
 -- 3.3.3 Loading Data into a Table
--- 3.3.4 Retrieving Information from a Table
 -- 3.3.4 Retrieving Information from a Table
 -- -- 3.3.4.1 Selecting All Data
 -- -- 3.3.4.2 Selecting Particular Rows
