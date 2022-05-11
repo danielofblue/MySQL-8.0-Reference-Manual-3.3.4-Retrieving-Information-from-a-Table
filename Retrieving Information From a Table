@@ -1,13 +1,29 @@
 3.3 Creating and Using a Database - # MySQL-8.0-Reference-Manual-
 
+3.1 Connecting to and Disconnecting from the Server [I]
 
-3.3.4 Retrieving Information from a Table
+3.2 Entering Queries [I]
+
+3.3 Creating and Using a Database [I]
+
+-- 3.3.1 Creating and Selecting a Database [I]
+
+-- 3.3.2 Creating a Table [I]
+
+-- 3.3.3 Loading Data into a Table [I]
 
 
 
 
 
-3.3.4.1 Selecting All Data
+
+-- 3.3.4 Retrieving Information from a Table
+
+
+
+
+
+-- -- 3.3.4.1 Selecting All Data
 mysql> SELECT * FROM pet;
 +----------+--------+---------+------+------------+------------+
 | name     | owner  | species | sex  | birth      | death      |
@@ -48,7 +64,7 @@ mysql> SELECT * FROM pet;
 
 
 
-3.3.4.2 Selecting Particular Rows
+-- -- 3.3.4.2 Selecting Particular Rows
 mysql> SELECT * FROM pet WHERE name = 'Bowser';
 +--------+-------+---------+------+------------+------------+
 | name   | owner | species | sex  | birth      | death      |
@@ -97,7 +113,7 @@ mysql> SELECT * FROM pet
 2 rows in set (0.00 sec)
 
 
-3.3.4.3 Selecting Particular Columns
+-- -- 3.3.4.3 Selecting Particular Columns
 mysql> SELECT name, birth FROM pet;
 +----------+------------+
 | name     | birth      |
@@ -158,7 +174,7 @@ mysql> SELECT name, species, birth FROM pet
 
 
 
-3.3.4.4 Sorting Rows
+-- -- 3.3.4.4 Sorting Rows
 mysql> SELECT name, birth FROM pet ORDER BY birth;
 +----------+------------+
 | name     | birth      |
@@ -213,7 +229,7 @@ mysql> SELECT name, species, birth FROM pet
 
 
 
-3.3.4.5 Date Calculations
+-- -- 3.3.4.5 Date Calculations
 mysql> SELECT name, birth, CURDATE(),
     -> TIMESTAMPDIFF(YEAR,birth,CURDATE()) AS age
     -> FROM pet;
@@ -335,7 +351,7 @@ mysql> SHOW WARNINGS;
 
 
 
-3.3.4.6 Working with NULL Values
+-- -- 3.3.4.6 Working with NULL Values
 mysql> SELECT 1 IS NULL, 1 IS NOT NULL;
 +-----------+---------------+
 | 1 IS NULL | 1 IS NOT NULL |
@@ -365,7 +381,7 @@ mysql> SELECT 0 IS NULL, 0 IS NOT NULL, ' ' IS NULL, ' ' IS NOT NULL;
 
 
 
-3.3.4.7 Pattern Matching
+-- -- 3.3.4.7 Pattern Matching
 mysql> SELECT * FROM pet WHERE name LIKE 'b%';
 +--------+--------+---------+------+------------+------------+
 | name   | owner  | species | sex  | birth      | death      |
@@ -454,7 +470,7 @@ mysql> SELECT * FROM pet WHERE REGEXP_LIKE(name, '^.{5}$');
 
 
 
-3.3.4.8 Counting Rows
+-- -- 3.3.4.8 Counting Rows
 mysql> SELECT COUNT(*) FROM pet;
 +----------+
 | COUNT(*) |
@@ -556,7 +572,8 @@ mysql> SELECT owner, COUNT(*) FROM pet;
 
 
 
-3.3.4.9 Using More Than one Table
+https://dev.mysql.com/doc/refman/8.0/en/multiple-tables.html
+-- -- 3.3.4.9 Using More Than one Table
 mysql> CREATE TABLE event (name VARCHAR(20), date DATE,
     ->        type VARCHAR(15), remark VARCHAR(255));
 Query OK, 0 rows affected (0.01 sec)
