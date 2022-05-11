@@ -15,7 +15,7 @@ Table of Contents
 
 -- 3.3.2 Creating a Table [I]
 
--- 3.3.3 Loading Data into a Table
+-- 3.3.3 Loading Data into a Table [I]
 
 -- 3.3.4 Retrieving Information from a Table
 
