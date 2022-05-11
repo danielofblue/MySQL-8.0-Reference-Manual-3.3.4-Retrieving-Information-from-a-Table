@@ -1,4 +1,4 @@
-3.3 Creating and Using a Database - # MySQL-8.0-Reference-Manual-
+# MySQL-8.0-Reference-Manual-Chapter-3-Tutorial
 3.1 Connecting to and Disconnecting from the Server
 3.2 Entering Queries
 3.3 Creating and Using a Database
@@ -6,3 +6,19 @@
 -- 3.3.2 Creating a Table
 -- 3.3.3 Loading Data into a Table
 -- 3.3.4 Retrieving Information from a Table
+-- 3.3.4 Retrieving Information from a Table
+-- -- 3.3.4.1 Selecting All Data
+-- -- 3.3.4.2 Selecting Particular Rows
+-- -- 3.3.4.3 Selecting Particular Columns
+-- -- 3.3.4.4 Sorting Rows*
+-- -- 3.3.4.5 Date Calculations
+-- -- 3.3.4.6 Working with NULL Values
+-- -- 3.3.4.7 Pattern Matching
+-- -- 3.3.4.8 Counting Rows
+-- -- 3.3.4.9 Using More Than one Table
+
+
+
+
+
+3.4 Getting Information About Databases and Tables
