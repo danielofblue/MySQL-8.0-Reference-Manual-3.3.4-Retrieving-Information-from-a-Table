@@ -24,12 +24,112 @@ Table of Contents
 3.6 Examples of Common Queries 
 https://dev.mysql.com/doc/refman/8.0/en/examples.html
 
--- 3.6.1 The Maximum Value for a Column
+mysql> CREATE TABLE shop (
+    -> article INT UNSIGNED DEFAULT '0000' NOT NULL,
+    -> dealer CHAR(20) DEFAULT ' ' NOT NULL,
+    -> price DECIMAL(16,2) DEFAULT '0.00' NOT NULL,
+    -> PRIMARY KEY (article, dealer));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> DESCRIBE shop;
++---------+---------------+------+-----+---------+-------+
+| Field   | Type          | Null | Key | Default | Extra |
++---------+---------------+------+-----+---------+-------+
+| article | int unsigned  | NO   | PRI | 0       |       |
+| dealer  | char(20)      | NO   | PRI |         |       |
+| price   | decimal(16,2) | NO   |     | 0.00    |       |
++---------+---------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> LOAD DATA LOCAL INFILE '/Users/danielscavongelli/Desktop/shop.txt' INTO TABLE shop;
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> SELECT * FROM shop ORDER BY article;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | A      |  3.45 |
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | B      |  1.45 |
+|       3 | C      |  1.69 |
+|       3 | D      |  1.25 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+7 rows in set (0.00 sec)
+
+
+
+
+
+
+-- 3.6.1 The Maximum Value for a Column 
 https://dev.mysql.com/doc/refman/8.0/en/example-maximum-column.html
+
+mysql> SELECT MAX(article) AS article FROM SHOP;
++---------+
+| article |
++---------+
+|       4 |
++---------+
+1 row in set (0.01 sec)
+
+
+
+
 
 
 -- 3.6.2 The Row Holding the Maximum of a Certain Column 
+https://dev.mysql.com/doc/refman/8.0/en/example-maximum-row.html
+Task: Find the number, dealer, and price of the most expensive article.
+
+mysql> SELECT article, dealer, price
+    -> FROM shop
+    -> WHERE price = (SELECT MAX(price) FROM shop);
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       4 | D      | 19.95 |
++---------+--------+-------+
+1 row in set (0.01 sec)
+
+mysql> SELECT s1.article, s1.dealer, s1.price
+    -> FROM shop s1
+    -> LEFT JOIN shop s2 ON s1.price < s2.price
+    -> WHERE s2.article IS NULL;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       4 | D      | 19.95 |
++---------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT article, dealer, price
+    -> FROM shop
+    -> ORDER BY price DESC
+    -> LIMIT 1;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       4 | D      | 19.95 |
++---------+--------+-------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
 -- 3.6.3 Maximum of Column per Group 
+https://dev.mysql.com/doc/refman/8.0/en/example-maximum-column-group.html
+Task: Find the highest price per article.
+
+
+
+
+
+
 -- 3.6.4 The Rows Holding the Group-wise Maximum of a Certain Column 
 -- 3.6.5 Using User-Defined Variables 
 -- 3.6.6 Using Foreign Keys 
