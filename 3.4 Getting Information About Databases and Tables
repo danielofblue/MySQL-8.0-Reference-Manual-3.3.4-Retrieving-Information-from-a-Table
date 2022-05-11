@@ -16,9 +16,46 @@
 -- -- 3.3.4.7 Pattern Matching
 -- -- 3.3.4.8 Counting Rows
 -- -- 3.3.4.9 Using More Than one Table
-
-
-
-
-
 3.4 Getting Information About Databases and Tables
+https://dev.mysql.com/doc/refman/8.0/en/getting-information.html
+
+mysql> SELECT DATABASE();
++------------+
+| DATABASE() |
++------------+
+| menagerie  |
++------------+
+1 row in set (0.00 sec)
+
+mysql> SHOW TABLES;
++---------------------+
+| Tables_in_menagerie |
++---------------------+
+| event               |
+| pet                 |
++---------------------+
+2 rows in set (0.00 sec)
+
+mysql> DESCRIBE pet;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| name    | varchar(20) | YES  |     | NULL    |       |
+| owner   | varchar(20) | YES  |     | NULL    |       |
+| species | varchar(20) | YES  |     | NULL    |       |
+| sex     | char(1)     | YES  |     | NULL    |       |
+| birth   | date        | YES  |     | NULL    |       |
+| death   | date        | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> DESC event;
++--------+--------------+------+-----+---------+-------+
+| Field  | Type         | Null | Key | Default | Extra |
++--------+--------------+------+-----+---------+-------+
+| name   | varchar(20)  | YES  |     | NULL    |       |
+| date   | date         | YES  |     | NULL    |       |
+| type   | varchar(15)  | YES  |     | NULL    |       |
+| remark | varchar(255) | YES  |     | NULL    |       |
++--------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
