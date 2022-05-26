@@ -125,13 +125,122 @@ mysql> SELECT article, dealer, price
 https://dev.mysql.com/doc/refman/8.0/en/example-maximum-column-group.html
 Task: Find the highest price per article.
 
+mysql> SELECT article, MAX(price) AS price
+    -> FROM shop
+    -> GROUP BY article
+    -> ORDER BY article;
++---------+------------+
+| article | price      |
++---------+------------+
+|       1 |       3.99 |
+|       2 |      10.99 |
+|       3 |       1.69 |
+|       4 |      19.95 |
++---------+------------+
+4 rows in set (0.00 sec)
+
 
 
 
 
 
 -- 3.6.4 The Rows Holding the Group-wise Maximum of a Certain Column 
+https://dev.mysql.com/doc/refman/8.0/en/example-maximum-column-group-row.html
+ Task: For each article, find the dealer or dealers with the most expensive price. 
+ 
+ subquery method:
+ 
+ mysql> SELECT article, dealer, price
+    -> FROM shop s1
+    -> WHERE price=(SELECT MAX(s2.price)
+    ->   FROM shop s2
+    ->   WHERE s1.article = S2.article)
+    -> ORDER BY article;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | C      |  1.69 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+4 rows in set (0.00 sec)
+ 
+uncorrelated subquery in the FROM clause method:
+
+ mysql> SELECT s1.article, dealer, s1.price
+    -> FROM shop s1
+    -> JOIN (
+    ->   SELECT article, MAX(price) AS price
+    ->   FROM shop
+    ->   GROUP BY article) AS s2
+    ->   ON s1.article = s2.article AND s1.price = s2.price
+    -> ORDER BY article;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | C      |  1.69 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+4 rows in set (0.00 sec)
+
+left join method:
+
+mysql> SELECT s1.article, s1.dealer, s1.price
+    -> FROM shop s1
+    -> LEFT JOIN shop s2 ON s1.article = s2.article AND s1.price < s2.price
+    -> WHERE s2.article IS NULL
+    -> ORDER BY s1.article;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | C      |  1.69 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+4 rows in set (0.00 sec)
+
+common table expression with a window function method:
+
+mysql> WITH s1 AS (
+    ->    SELECT article, dealer, price,
+    ->           RANK() OVER (PARTITION BY article
+    ->                            ORDER BY price DESC
+    ->                       ) AS `Rank`
+    ->      FROM shop
+    -> )
+    -> SELECT article, dealer, price
+    ->   FROM s1
+    ->   WHERE `Rank` = 1
+    -> ORDER BY article;
++---------+--------+-------+
+| article | dealer | price |
++---------+--------+-------+
+|       1 | B      |  3.99 |
+|       2 | A      | 10.99 |
+|       3 | C      |  1.69 |
+|       4 | D      | 19.95 |
++---------+--------+-------+
+4 rows in set (0.00 sec)
+
+
+
+
+
+
 -- 3.6.5 Using User-Defined Variables 
+https://dev.mysql.com/doc/refman/8.0/en/example-user-variables.html
+Task: find the articles with the highest and lowest price 
+
+
+
+
+
+
+
 -- 3.6.6 Using Foreign Keys 
 -- 3.6.7 Searching on Two Keys 
 -- 3.6.8 Calculating Visits Per Day 
